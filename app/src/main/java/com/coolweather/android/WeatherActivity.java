@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
@@ -30,7 +33,11 @@ import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
 
-    private SwipeRefreshLayout swipeRefresh;
+    public DrawerLayout drawerLayout;
+
+    private Button navButton;
+
+    public SwipeRefreshLayout swipeRefresh;
 
     private ScrollView weatherLayout;
 
@@ -82,6 +89,8 @@ public class WeatherActivity extends AppCompatActivity {
         bingPicImg = findViewById(R.id.bing_pic_img);
         swipeRefresh = findViewById(R.id.swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navButton = findViewById(R.id.nav_button);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather", null);
@@ -102,6 +111,12 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 requestWeather(weatherId);
+            }
+        });
+        navButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
